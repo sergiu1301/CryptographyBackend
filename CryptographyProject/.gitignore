@@ -1,0 +1,53 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.db
+*.opendb
+*.obj
+*.exe
+*.pdb
+*.dll
+*.idb
+*.log
+*.tlog
+*.lastbuildstate
+*.aps
+*.ncb
+*.userosscache
+*.prof
+*.ipch
+*.obj
+*.pch
+*.rsp
+*.ilk
+*.exp
+*.tlb
+*.tlh
+*.bak
+*.cachefile
+bin/
+obj/
+
+# Build output
+Build/
+Release/
+Debug/
+
+# Package folders
+packages/
+node_modules/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.pid
+*.gz
+*.swp
+
+# Other
+*.vsix
+*.vscode/
+.idea/

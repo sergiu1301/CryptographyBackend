@@ -1,0 +1,6 @@
+@CryptographyProject_HostAddress = http://localhost:5103
+
+POST {{CryptographyProject_HostAddress}}/encrypt/
+Accept: application/json
+
+###
