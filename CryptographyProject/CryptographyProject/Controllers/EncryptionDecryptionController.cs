@@ -1,7 +1,6 @@
 ﻿using CryptographyProject.Models;
 using CryptographyProject.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Text;
 
 namespace CryptographyProject.Controllers
 {
@@ -9,18 +8,6 @@ namespace CryptographyProject.Controllers
     [Route("api/[controller]")]
     public class EncryptionDecryptionController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<EncryptionDecryptionController> _logger;
-
-        public EncryptionDecryptionController(ILogger<EncryptionDecryptionController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpPost("Encrypt")]
         public ActionResult<CryptoResponse> Encrypt([FromBody] CryptoRequest req)
         {
