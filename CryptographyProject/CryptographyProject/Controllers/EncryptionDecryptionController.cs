@@ -14,11 +14,10 @@ namespace CryptographyProject.Controllers
             if (req == null || string.IsNullOrWhiteSpace(req.Text))
                 return BadRequest("Invalid request. 'text' required.");
 
-            // Apelăm RC5Service
             string cipherHex;
             try
             {
-                cipherHex = RC5Service.Encrypt(req.W, req.R, req.Text, req.Key ?? "");
+                cipherHex = RC5Service.Encrypt(req.W, req.R, req.Text, req.Key);
             }
             catch (Exception ex)
             {
@@ -37,7 +36,7 @@ namespace CryptographyProject.Controllers
             string plain;
             try
             {
-                plain = RC5Service.Decrypt(req.W, req.R, req.Text, req.Key ?? "");
+                plain = RC5Service.Decrypt(req.W, req.R, req.Text, req.Key);
             }
             catch (Exception ex)
             {

@@ -5,7 +5,7 @@ namespace CryptographyProject.Services;
 public static class RC5Service
 {
     /// <summary>
-    /// Encrypts the given plaintext (string) using RC5 with parameters w, r, b.
+    /// Encrypts the given plaintext (string) using RC5 with parameters w, r.
     /// Returns the ciphertext as a hexadecimal string.
     /// </summary>
     public static string Encrypt(int w, int r, string plainText, string keyString)
@@ -60,7 +60,7 @@ public static class RC5Service
     }
 
     /// <summary>
-    /// Decrypts the given ciphertext (hex string) using RC5 with parameters w, r, b.
+    /// Decrypts the given ciphertext (hex string) using RC5 with parameters w, r.
     /// Returns the plaintext as a UTF-8 string.
     /// </summary>
     public static string Decrypt(int w, int r, string cipherHex, string keyString)
@@ -119,16 +119,17 @@ public static class RC5Service
     {
         // 1. Build array L of length c = b / (w/8)
         int b = userKey.Length;
-        int c = b / (w / 8);
+        int countChars = w / 8;
+        int c = b / countChars;
         ulong[] L = new ulong[c];
 
         // Fill L[i] (little-endian)
         for (int i = 0; i < c; i++)
         {
             L[i] = 0;
-            for (int k = 0; k < (w / 8); k++)
+            for (int k = 0; k < countChars; k++)
             {
-                L[i] |= (ulong)userKey[i * (w / 8) + k] << (8 * k);
+                L[i] |= (ulong)userKey[i * countChars + k] << (8 * k);
             }
             // mask to w bits
             L[i] &= MaskFor(w);
