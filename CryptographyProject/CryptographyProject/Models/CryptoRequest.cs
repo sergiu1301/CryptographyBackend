@@ -9,6 +9,5 @@ public class CryptoRequest
     public int R { get; set; }
     [Required]
     public string Text { get; set; }
-    [Required]
     public string Key { get; set; }
 }

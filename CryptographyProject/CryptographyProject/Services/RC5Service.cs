@@ -120,18 +120,18 @@ public static class RC5Service
         // 1. Build array L of length c = b / (w/8)
         int b = userKey.Length;
         int countChars = w / 8;
-        int c = b / countChars;
+        int c = (int)Math.Ceiling((double)Math.Max(b, 1) / countChars);
         ulong[] L = new ulong[c];
 
         // Fill L[i] (little-endian)
+        for (int i = b - 1; i >= 0; i--)
+        {
+            int index = i / countChars;
+            L[index] = (L[index] << 8) + userKey[i];
+        }
+
         for (int i = 0; i < c; i++)
         {
-            L[i] = 0;
-            for (int k = 0; k < countChars; k++)
-            {
-                L[i] |= (ulong)userKey[i * countChars + k] << (8 * k);
-            }
-            // mask to w bits
             L[i] &= MaskFor(w);
         }
 
@@ -158,7 +158,7 @@ public static class RC5Service
             B = L[jIndex];
 
             iIndex = (iIndex + 1) % t;
-            jIndex = (jIndex + 1) % c;
+            jIndex = (c > 0) ? (jIndex + 1) % c : 0;
         }
 
         return S;
@@ -249,22 +249,6 @@ public static class RC5Service
             64 => 0xFFFFFFFFFFFFFFFFUL,
             _ => throw new ArgumentException("Invalid w"),
         };
-    }
-
-    // ------------------------------------------------------------------------
-    // Key and block I/O
-    // ------------------------------------------------------------------------
-    private static byte[] PrepareKey(string key, int b)
-    {
-        // Convert the key string into b bytes
-        byte[] kBytes = Encoding.UTF8.GetBytes(key);
-        byte[] result = new byte[b];
-        for (int i = 0; i < b; i++)
-        {
-            if (i < kBytes.Length) result[i] = kBytes[i];
-            else result[i] = 0x00;
-        }
-        return result;
     }
 
     private static byte[] PadToBlock(byte[] data, int w)
@@ -360,8 +344,5 @@ public static class RC5Service
         int keyBits = Encoding.UTF8.GetBytes(key).Length * 8;
         if (keyBits > 2040)
             throw new ArgumentException("Invalid key length. Key size must not exceed 2040 bits.");
-
-        if (keyBits < w)
-            throw new ArgumentException($"Key size in bits ({keyBits}) must be greater than or equal to W ({w}).");
     }
 }
